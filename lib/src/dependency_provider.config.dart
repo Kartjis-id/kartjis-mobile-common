@@ -22,7 +22,7 @@ import 'package:kartjis_mobile_common/src/network/raw_http/raw_http_client.dart'
     as _i7;
 
 // initializes the registration of main-scope dependencies inside of GetIt
-_i1.GetIt initMobileApFrontendCommonDependencies(
+_i1.GetIt initKartjisMobileCommonDependencies(
   _i1.GetIt getIt, {
   String? environment,
   _i2.EnvironmentFilter? environmentFilter,

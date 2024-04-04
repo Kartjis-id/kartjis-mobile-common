@@ -4,7 +4,7 @@ import 'package:kartjis_mobile_common/src/network/http/_http.dart';
 import 'package:kartjis_mobile_common/src/network/interceptor/_interceptor.dart';
 
 @InjectableInit(
-  initializerName: 'initMobileApFrontendCommonDependencies',
+  initializerName: 'initKartjisMobileCommonDependencies',
   generateForDir: <String>['lib/src'],
   asExtension: false,
   includeMicroPackages: false,
