@@ -1,11 +1,8 @@
 import 'dart:async';
 
 import 'package:http/http.dart';
+import 'package:kartjis_mobile_common/src/network/raw_http/raw_stub_http_client.dart';
 import 'package:meta/meta.dart';
-// ignore: always_use_package_imports
-import 'raw_stub_http_client.dart'
-    if (dart.library.io) 'raw_io_http_client.dart'
-    if (dart.library.html) 'raw_browser_http_client.dart';
 
 typedef RawHttpProgressCallback = void Function(int current, int? total);
 
