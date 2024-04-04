@@ -18,14 +18,6 @@ class UnexpectedResponseFormatException implements Exception {
   String toString() => 'Unexpected Response Format';
 }
 
-class UnknownErrorException implements Exception {
-  UnknownErrorException([this.error]);
-
-  final Object? error;
-
-  @override
-  String toString() => 'Unknown Error';
-}
 
 class ErrorResponseException implements Exception {
   const ErrorResponseException({

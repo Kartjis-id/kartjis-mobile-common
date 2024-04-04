@@ -7,6 +7,7 @@ import 'package:cross_file/cross_file.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
+import 'package:kartjis_mobile_common/src/core/exceptions/_exceptions.dart';
 
 import 'package:kartjis_mobile_common/src/core/extensions/map_extensions.dart';
 import 'package:kartjis_mobile_common/src/core/models/result.dart';
