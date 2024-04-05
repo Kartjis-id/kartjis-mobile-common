@@ -1,5 +1,4 @@
 
-import 'package:http/http.dart';
 import 'package:kartjis_mobile_common/src/core/models/result.dart';
 import 'package:kartjis_mobile_common/src/network/http/_http.dart';
 import 'package:kartjis_mobile_common/src/network/interceptor/_interceptor.dart';
