@@ -1,4 +1,3 @@
-
 import 'package:kartjis_mobile_common/src/core/models/result.dart';
 import 'package:kartjis_mobile_common/src/network/http/_http.dart';
 import 'package:kartjis_mobile_common/src/network/interceptor/_interceptor.dart';
@@ -20,7 +19,8 @@ abstract class AuthTokenInterceptor extends Interceptor {
         chain.request.headers['Authorization'] = 'Bearer $accessToken';
         break;
       case AuthType.basic:
-        final basicToken = getBasicToken(chain.request.url);
+        final body = chain.requestBody;
+        final basicToken = getBasicToken(body['username'], body['password']);
         if (basicToken != null) {
           chain.request.headers['Authorization'] = basicToken;
         }
@@ -31,7 +31,7 @@ abstract class AuthTokenInterceptor extends Interceptor {
     return chain.proceed(chain.request);
   }
 
-  String? getBasicToken(Uri url);
+  String? getBasicToken(String username, String password);
 
   String? accessToken;
 }

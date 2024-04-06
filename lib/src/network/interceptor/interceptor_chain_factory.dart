@@ -10,5 +10,6 @@ abstract class InterceptorChainFactory {
     required HttpEndpointBase<dynamic> endpoint,
     required BaseRequest request,
     required Client client,
+    required JsonMap requestBody,
   });
 }

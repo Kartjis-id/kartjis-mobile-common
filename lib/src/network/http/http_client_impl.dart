@@ -32,17 +32,28 @@ class _HttpClientImpl implements HttpClient {
     );
 
     final httpRequest = await _createBaseRequest(uri, endpoint, request);
+    final requestBody = await _createRequestBody(request);
 
     final response = await interceptorChainFactory.send(
       endpoint: endpoint,
       request: httpRequest,
       client: client,
+      requestBody: requestBody,
     );
 
-    return response.andThen((HttpResponse data) => HttpClient.parseSuccessData(endpoint, data));
+    return response.andThen(
+        (HttpResponse data) => HttpClient.parseSuccessData(endpoint, data));
   }
 
-  FutureOr<BaseRequest> _createBaseRequest(Uri uri, HttpEndpointBase<dynamic> endpoint, HttpRequest request) {
+  FutureOr<JsonMap> _createRequestBody(HttpRequest request) {
+    return request.body.when<JsonMap>(
+      basic: (body) => body ?? <String, dynamic>{},
+      multipart: (fields, files) => <String, dynamic>{},
+    );
+  }
+
+  FutureOr<BaseRequest> _createBaseRequest(
+      Uri uri, HttpEndpointBase<dynamic> endpoint, HttpRequest request) {
     return request.body.when<FutureOr<BaseRequest>>(
       basic: (Map<String, dynamic>? body) => network.createRequest(
         method: endpoint.method._value,
@@ -50,7 +61,8 @@ class _HttpClientImpl implements HttpClient {
         headers: _concatHeaders(request.contentType, request.headers),
         body: body,
       ),
-      multipart: (Map<String, String>? fields, Map<String, XFile>? files) => network.createMultipartRequest(
+      multipart: (Map<String, String>? fields, Map<String, XFile>? files) =>
+          network.createMultipartRequest(
         method: endpoint.method._value,
         url: uri,
         headers: _concatHeaders(request.contentType, request.headers),
@@ -60,7 +72,8 @@ class _HttpClientImpl implements HttpClient {
     );
   }
 
-  Map<String, String> _concatHeaders(HttpContentType? contentType, Map<String, String>? other) {
+  Map<String, String> _concatHeaders(
+      HttpContentType? contentType, Map<String, String>? other) {
     if (other == null) {
       if (contentType != null) {
         return <String, String>{

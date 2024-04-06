@@ -8,6 +8,7 @@ class _InterceptorChainImpl implements InterceptorChain {
     required this.interceptors,
     required this.endpoint,
     required this.request,
+    required this.requestBody,
   }) : _index = index;
 
   int _index;
@@ -23,6 +24,9 @@ class _InterceptorChainImpl implements InterceptorChain {
 
   @override
   final BaseRequest request;
+
+  @override
+  final JsonMap requestBody;
 
   int get _availableInterceptorIndex {
     for (var i = _index + 1; i < interceptors.length; i++) {
@@ -80,6 +84,7 @@ class _InterceptorChainImpl implements InterceptorChain {
       interceptors: interceptors,
       endpoint: endpoint,
       request: request,
+      requestBody: requestBody,
     );
   }
 }

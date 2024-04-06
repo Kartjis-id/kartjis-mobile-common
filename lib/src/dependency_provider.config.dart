@@ -13,8 +13,6 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:kartjis_mobile_common/network.dart' as _i3;
 import 'package:kartjis_mobile_common/src/network/http/_http.dart' as _i11;
-import 'package:kartjis_mobile_common/src/network/interceptor/_interceptor.dart'
-    as _i13;
 import 'package:kartjis_mobile_common/src/network/interceptor/interceptors/connection_checker_interceptor.dart'
     as _i8;
 import 'package:kartjis_mobile_common/src/network/interceptor/interceptors/failed_request_handler_interceptor.dart'
@@ -27,8 +25,6 @@ import 'package:kartjis_mobile_common/src/network/network/failed_request_handler
     as _i4;
 import 'package:kartjis_mobile_common/src/network/network/network.dart' as _i7;
 import 'package:kartjis_mobile_common/src/network/network_dependency_provider.dart'
-    as _i14;
-import 'package:kartjis_mobile_common/src/network/raw_http/raw_http_client.dart'
     as _i12;
 
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -64,12 +60,12 @@ Future<_i1.GetIt> initKartjisMobileCommonDependencies(
           gh<_i10.FailedRequestHandlerRegistry>()));
   gh.lazySingleton<_i11.HttpClient>(() => _i11.HttpClient(
         client: gh<_i11.Client>(),
-        rawClient: gh<_i12.RawHttpClient>(),
-        network: gh<_i7.Network>(),
+        rawClient: gh<_i3.RawHttpClient>(),
+        network: gh<_i3.Network>(),
         config: gh<_i11.HttpConfig>(),
-        interceptorChainFactory: gh<_i13.InterceptorChainFactory>(),
+        interceptorChainFactory: gh<_i3.InterceptorChainFactory>(),
       ));
   return getIt;
 }
 
-class _$NetworkDependencyProvider extends _i14.NetworkDependencyProvider {}
+class _$NetworkDependencyProvider extends _i12.NetworkDependencyProvider {}
