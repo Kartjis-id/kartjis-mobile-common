@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:cross_file/cross_file.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';

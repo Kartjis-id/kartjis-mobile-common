@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:kartjis_mobile_common/src/core/anotations/_annotations.dart';
+import 'package:kartjis_mobile_common/src/core/exceptions/_exceptions.dart';
 
 part 'exceptions.g.dart';
 
@@ -17,7 +18,6 @@ class UnexpectedResponseFormatException implements Exception {
   @override
   String toString() => 'Unexpected Response Format';
 }
-
 
 class ErrorResponseException implements Exception {
   const ErrorResponseException({
@@ -108,4 +108,12 @@ class ErrorResponseDetail extends Equatable {
 
   @override
   List<Object?> get props => [userId, username];
+}
+
+//
+
+class HttpException extends CustomException {
+  HttpException(super.message, {this.statusCode});
+
+  final int? statusCode;
 }

@@ -35,6 +35,14 @@ class _BrutalismButtonState extends State<BrutalismButton> {
     _onHoverNotifier.dispose();
   }
 
+  void _onTap() {
+    FocusScope.of(context).unfocus();
+    Future.delayed(const Duration(milliseconds: 200), () {
+      _onHoverNotifier.value = false;
+      widget.onTap.call();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -46,22 +54,8 @@ class _BrutalismButtonState extends State<BrutalismButton> {
                     _onHoverNotifier.value = true;
                   }
                 : null,
-            onTapUp: widget.isEnabled
-                ? (details) {
-                    Future.delayed(const Duration(milliseconds: 200), () {
-                      _onHoverNotifier.value = false;
-                      widget.onTap.call();
-                    });
-                  }
-                : null,
-            onTapCancel: widget.isEnabled
-                ? () {
-                    Future.delayed(const Duration(milliseconds: 200), () {
-                      _onHoverNotifier.value = false;
-                      widget.onTap.call();
-                    });
-                  }
-                : null,
+            onTapUp: widget.isEnabled ? (details) => _onTap() : null,
+            onTapCancel: widget.isEnabled ? () => _onTap() : null,
             child: Stack(
               children: [
                 Container(
@@ -116,11 +110,9 @@ class _BrutalismButtonState extends State<BrutalismButton> {
                         child: Text(
                           widget.title,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: widget.isEnabled
-                                ? widget.textColor ?? Colors.white
-                                : Colors.grey,
-                            fontWeight: FontWeight.w500,
-                          ),
+                                color: widget.isEnabled ? widget.textColor ?? Colors.white : Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
                         ),
                       ),
                     ],

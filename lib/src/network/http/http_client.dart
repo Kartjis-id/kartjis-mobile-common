@@ -62,7 +62,12 @@ abstract class HttpClient {
       HttpEndpointBase<T> endpoint, HttpResponse response) {
     try {
       final result = endpoint.onResponse(response);
-      return Result<T>.success(result);
+      if (result is T) {
+        return Result<T>.success(result);
+      } else {
+        return Result.error(
+            HttpException(result, statusCode: response.statusCode));
+      }
     } on FormatException {
       return Result.error(BadResponseFormatException());
     } on BadResponseFormatException {

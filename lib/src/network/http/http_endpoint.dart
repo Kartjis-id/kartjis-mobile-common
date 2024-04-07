@@ -13,11 +13,12 @@ abstract class HttpEndpointBase<T> {
   /// whether to handle this endpoint or not.
   Map<Object, Object?>? get flags;
 
-  T onResponse(covariant BaseResponse response);
+  dynamic onResponse(covariant BaseResponse response);
 
   @visibleForTesting
   static bool isValidResponseFor<T>(HttpResponse response) {
     if (!response.isJsonResponse) throw BadResponseFormatException();
+
     return response.hasBodyResponse && response.bodyResponse is T;
   }
 }
@@ -49,10 +50,13 @@ class HttpEndpoint<T> implements HttpEndpointBase<T> {
   final HttpOnData<T>? _onDataFn;
 
   @override
-  T onResponse(HttpResponse response) {
-    print(response);
+  dynamic onResponse(HttpResponse response) {
     if (HttpEndpointBase.isValidResponseFor<JsonMap>(response) &&
         _onDataFn != null) {
+      if ((response.statusCode != 200 && response.statusCode != 201) &&
+          response.hasBodyError) {
+        return response.errorMessage;
+      }
       return _onDataFn!(response.bodyResponse! as Map<String, dynamic>);
     }
     return response.bodyResponse as T;

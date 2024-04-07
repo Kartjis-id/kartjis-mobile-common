@@ -91,20 +91,23 @@ class HttpResponse extends Response {
   /// Whether the body json has an "error" key.
   bool get hasBodyError => _hasBodyError ?? bodyError != null;
 
+  String get errorMessage => _errorMessage ?? '';
+  String? _errorMessage;
+
   Map<String, dynamic>? _bodyError;
   Map<String, dynamic>? get bodyError {
     if (_bodyError != null) return _bodyError!;
 
-    final bodyJson = this.bodyJson;
+    final dynamic bodyJson = this.bodyJson;
     if (bodyJson == null || _hasBodyError == false) return null;
 
-    final dynamic error = bodyJson['error'];
-    if (error is! Map<String, dynamic>) {
+    final dynamic error = bodyJson['message'];
+    if (bodyJson is! Map<String, dynamic> && error is! String) {
       _hasBodyError = false;
       return null;
     }
-
+    _errorMessage = error;
     _hasBodyError = true;
-    return _bodyError = error;
+    return bodyJson;
   }
 }
