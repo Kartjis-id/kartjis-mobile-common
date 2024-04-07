@@ -1,7 +1,6 @@
 part of http;
 
 typedef HttpOnData<T> = T Function(Map<String, dynamic> json);
-typedef JsonMap = Map<String, dynamic>;
 
 enum AuthType { none, basic, session }
 
@@ -51,6 +50,7 @@ class HttpEndpoint<T> implements HttpEndpointBase<T> {
 
   @override
   T onResponse(HttpResponse response) {
+    print(response);
     if (HttpEndpointBase.isValidResponseFor<JsonMap>(response) &&
         _onDataFn != null) {
       return _onDataFn!(response.bodyResponse! as Map<String, dynamic>);
@@ -85,9 +85,13 @@ class HttpListEndpoint<T> implements HttpEndpointBase<List<T>> {
 
   @override
   List<T> onResponse(HttpResponse response) {
-    if (HttpEndpointBase.isValidResponseFor<List<dynamic>>(response) && _onDataFn != null) {
+    if (HttpEndpointBase.isValidResponseFor<List<dynamic>>(response) &&
+        _onDataFn != null) {
       final bodyResponse = response.bodyResponse! as List<dynamic>;
-      return bodyResponse.whereType<JsonMap>().map((it) => _onDataFn!(it)).toList();
+      return bodyResponse
+          .whereType<JsonMap>()
+          .map((it) => _onDataFn!(it))
+          .toList();
     }
     return response.bodyResponse! as List<T>;
   }
